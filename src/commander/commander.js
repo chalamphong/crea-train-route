@@ -33,6 +33,11 @@ const processArgs = args => {
         flagVarName = null;
       }
     });
+
+    if (flagVarName !== null) {
+      processedArgs[flagVarName] = true;
+      flagVarName = null;
+    }
   }
 
   return processedArgs;

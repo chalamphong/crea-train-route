@@ -42,4 +42,12 @@ describe("processArgs", () => {
     };
     expect(toTest).toEqual(expected);
   });
+  it("Defaults flag value to true for last flag too", () => {
+    const toTest = processArgs(["--foo=bar", "--bar"]);
+    const expected = {
+      foo: "bar",
+      bar: true
+    };
+    expect(toTest).toEqual(expected);
+  });
 });
