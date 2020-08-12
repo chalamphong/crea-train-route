@@ -97,4 +97,18 @@ describe("Route parser", () => {
 
     expect(routeparser.parse(csvString)).toEqual(expected);
   });
+  it("works with Buffer type", () => {
+    const csvString = Buffer.from("A,B,9.8\nB,C,8\nA,C,10");
+    const expected = {
+      A: {
+        C: 10,
+        B: 9.8
+      },
+      B: {
+        C: 8
+      }
+    };
+
+    expect(routeparser.parse(csvString)).toEqual(expected);
+  });
 });
