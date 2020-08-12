@@ -7,6 +7,9 @@ const blab = {
   },
   error: text => {
     console.log(text);
+  },
+  log: text => {
+    console.log(text);
   }
 };
 
