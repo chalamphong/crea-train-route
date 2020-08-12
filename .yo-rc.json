@@ -1,0 +1,9 @@
+{
+  "generator-node": {
+    "promptValues": {
+      "authorName": "Chalamphong Pandey",
+      "authorEmail": "me@chalamphong.com",
+      "authorUrl": "chalamphong.com"
+    }
+  }
+}
