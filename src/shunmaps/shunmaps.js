@@ -1,10 +1,17 @@
-export default class shunMaps {
+export default class ShunMaps {
   constructor({ routes }) {
     this.routes = routes;
   }
 
-  prepareDestinations({ parent, minutesToParent = 0, path = [] }) {
-    const routes = this.routes[parent];
+  static formatRoute(destination) {
+    return {
+      stops: destination.path.length,
+      path: destination.path,
+      duration: destination.minutesToDestination + destination.minutesToParent
+    };
+  }
+
+  prepareDestinations({ parent, minutesToParent = 0, path = [], routes }) {
     if (routes) {
       return Object.keys(routes).map(destination => {
         return {
@@ -28,35 +35,21 @@ export default class shunMaps {
       return routes;
     }
 
-    // Let destinations = Object.keys(fromRoutes).map(destination => {
-    //   return {
-    //     parent: from,
-    //     destination,
-    //     path: [],
-    //     minutesToParent: 0,
-    //     minutesToDestination: fromRoutes[destination],
-    //     routes: this.routes[destination]
-    //   };
-    // });
     let destinations = this.prepareDestinations({
-      parent: from
+      parent: from,
+      routes: this.routes[from]
     });
 
     while (destinations.length > 0) {
       destinations.forEach(destination => {
         // Found Route, push to list
         if (destination.destination === to) {
-          routes.push({
-            stops: destination.path.length,
-            path: destination.path,
-            duration:
-              destination.minutesToDestination + destination.minutesToParent
-          });
+          routes.push(ShunMaps.formatRoute(destination));
         }
       });
 
       // Get next level destinations
-      const newDestinations = [];
+      let newDestinations = [];
       destinations.forEach(fromNode => {
         const {
           minutesToParent: minutesToGrandParent,
@@ -66,16 +59,13 @@ export default class shunMaps {
           path
         } = fromNode;
         if (destinationRoutes) {
-          Object.keys(destinationRoutes).forEach(newDestinationNode => {
-            newDestinations.push({
-              parent,
-              destination: newDestinationNode,
-              path: [...path, parent],
-              minutesToParent: minutesToGrandParent + minutesToParent,
-              minutesToDestination: destinationRoutes[newDestinationNode],
-              routes: this.routes[newDestinationNode]
-            });
+          const fromDestinations = this.prepareDestinations({
+            parent,
+            path: [...path, parent],
+            minutesToParent: minutesToGrandParent + minutesToParent,
+            routes: destinationRoutes
           });
+          newDestinations = [...newDestinations, ...fromDestinations];
         }
       });
 
