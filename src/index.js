@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 
-import commander from "./commander";
+import commander, { ask } from "./commander";
 import blab from "./blab";
 import routesParser from "./routesparser";
 
@@ -36,7 +36,23 @@ const func = () => {
     return;
   }
 
-  blab.info(`Routes received ${JSON.stringify(routes, null, 2)}`);
+  blab.info(`Routes parsing complete`, routes);
+
+  const questions = [
+    {
+      key: "from",
+      label: "What station are you getting on to the train?"
+    },
+    {
+      key: "to",
+      label: "What station are you getting off the train?"
+    }
+  ];
+
+  ask(questions).then(answers => {
+    const { to, from } = answers;
+    blab.info(`Looking for the shortest route from ${from} to ${to}`);
+  });
 };
 
 export default func;
