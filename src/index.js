@@ -4,6 +4,7 @@ import fs from "fs";
 import commander, { ask } from "./commander";
 import blab from "./blab";
 import routesParser from "./routesparser";
+import ShunMaps from "./shunmaps";
 
 const readFile = filePath => {
   try {
@@ -27,16 +28,15 @@ const func = () => {
     return;
   }
 
-  blab.info(`Starting csv file parsing`, typeof fileData);
   let routes = {};
+  let shunMaps;
   try {
     routes = routesParser.parse(fileData);
+    shunMaps = new ShunMaps({ routes });
   } catch (e) {
     blab.error(`😭 Error parsing csv file ${e.message}`);
     return;
   }
-
-  blab.info(`Routes parsing complete`, routes);
 
   const questions = [
     {
@@ -50,8 +50,22 @@ const func = () => {
   ];
 
   ask(questions).then(answers => {
+    blab.nextLine();
     const { to, from } = answers;
     blab.info(`Looking for the shortest route from ${from} to ${to}`);
+
+    const shortestRoute = shunMaps.getShortestRoute({ from, to });
+
+    if (shortestRoute) {
+      const { stops, duration } = shortestRoute;
+      blab.success(
+        `🚂 Your trip from ${from} to ${to} includes ${stops} ${
+          stops > 1 ? "stops" : "stop"
+        } and will take ${duration} ${duration > 1 ? "minutes" : "minute"}`
+      );
+    } else {
+      blab.error(`😢 There are no routes from ${from} to ${to}. Not happening`);
+    }
   });
 };
 
