@@ -1,5 +1,8 @@
+import commander from "./commander";
+
 const func = () => {
-  console.log(process.argv);
+  const args = commander();
+  console.log(args);
 };
 
 export default func;
