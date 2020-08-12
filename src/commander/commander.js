@@ -1,3 +1,5 @@
+import readline from "readline";
+import { stdin, stdout } from "process";
 /**
  * Returns a processed version of arguments passed on by node's process.argv.
  * Returns an object where all flags are converted to an object.
@@ -43,6 +45,41 @@ const processArgs = args => {
   return processedArgs;
 };
 
+const askAQuestion = (promptInterface, question) =>
+  new Promise(resolve => {
+    promptInterface.question(`${question}: `, answer => {
+      resolve(answer);
+    });
+  });
+
+/**
+ * Prompts cli to asks for more information from the user
+ * @param {Array} questions       Questions to ask the user
+ */
+const ask = async questions => {
+  const promptInterface = readline.createInterface({
+    input: stdin,
+    output: stdout
+  });
+
+  const responses = {};
+
+  if (Array.isArray(questions) && questions.length > 0) {
+    for (let i = 0; i < questions.length; i++) {
+      const { key, label } = questions[i];
+      /* eslint-disable no-await-in-loop */
+      const response = await askAQuestion(promptInterface, label);
+      /* eslint-enable no-await-in-loop */
+
+      responses[key] = response;
+    }
+
+    promptInterface.close();
+  }
+
+  return responses;
+};
+
 /**
  * Commander is a cli command tool to command arguments from the user of the cli tool
  * @param {Object} params
@@ -59,6 +96,6 @@ const commander = () => {
   return processedArgs;
 };
 
-export { processArgs };
+export { processArgs, ask };
 
 export default commander;
