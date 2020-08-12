@@ -1,8 +1,9 @@
 import commander from "./commander";
+import blab from "./blab";
 
 const func = () => {
   const { file: filePath } = commander();
-  console.log(`Got file path`, filePath);
+  blab.info(`Got file path`, filePath);
 };
 
 export default func;
