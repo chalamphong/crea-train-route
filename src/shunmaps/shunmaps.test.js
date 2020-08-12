@@ -6,15 +6,18 @@ const routes = {
     C: 10
   },
   B: {
+    D: 2,
     E: 12,
     X: 9,
-    Y: 12
+    Y: 12,
+    C: 2
   },
   C: {
-    Z: 12
+    Z: 12,
+    F: 22
   },
   D: {
-    E: 1
+    E: 10
   },
   E: {
     F: 12
@@ -49,6 +52,29 @@ describe("Shunmaps", () => {
       expect(shunmaps.getShortestRoute({ from: "A", to: "G" })).toEqual(
         undefined
       );
+    });
+    it("Returns path with the least number of stops when durations are the same", () => {
+      expect(shunmaps.getShortestRoute({ from: "B", to: "F" })).toEqual({
+        duration: 24,
+        path: ["E"],
+        stops: 1
+      });
+    });
+  });
+  describe("getAllRoutes", () => {
+    it("Check sanity", () => {
+      expect(shunmaps.getAllRoutes({ from: "A", to: "C" })).toEqual([
+        {
+          duration: 10,
+          path: [],
+          stops: 0
+        },
+        {
+          duration: 10,
+          path: ["B"],
+          stops: 1
+        }
+      ]);
     });
   });
 });

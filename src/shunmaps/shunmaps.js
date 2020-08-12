@@ -80,7 +80,11 @@ export default class ShunMaps {
 
     if (allRoutes.length > 0) {
       allRoutes.sort((routeA, routeB) => {
-        return routeA.duration - routeB.duration;
+        if (routeA.duration !== routeB.duration) {
+          return routeA.duration - routeB.duration;
+        }
+
+        return routeA.stops - routeB.stops;
       });
       return allRoutes[0];
     }
