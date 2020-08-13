@@ -55,12 +55,16 @@ export default class ShunMaps {
           minutesToDestination: minutesToParent,
           routes: destinationRoutes,
           destination: parent,
-          path
+          path = []
         } = fromNode;
-        if (!path.includes(parent) && destinationRoutes) {
+        const stops = path.map(stop => stop.station);
+        if (!stops.includes(parent) && destinationRoutes) {
           const fromDestinations = this.prepareDestinations({
             parent,
-            path: [...path, parent],
+            path: [
+              ...path,
+              { station: parent, minutesToStation: minutesToParent }
+            ],
             minutesToParent: minutesToGrandParent + minutesToParent,
             routes: destinationRoutes
           });

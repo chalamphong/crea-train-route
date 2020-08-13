@@ -40,7 +40,12 @@ describe("Shunmaps", () => {
     it("Check shortest path sanity", () => {
       expect(shunmaps.getShortestRoute({ from: "A", to: "X" })).toEqual({
         duration: 17,
-        path: ["B"]
+        path: [
+          {
+            station: "B",
+            minutesToStation: 8
+          }
+        ]
       });
     });
     it("Should return undefined for unknown origin", () => {
@@ -61,7 +66,12 @@ describe("Shunmaps", () => {
     it("Returns path with the least number of stops when durations are the same", () => {
       expect(shunmaps.getShortestRoute({ from: "B", to: "F" })).toEqual({
         duration: 24,
-        path: ["E"]
+        path: [
+          {
+            station: "E",
+            minutesToStation: 12
+          }
+        ]
       });
     });
     it("does not route back to parent", () => {
@@ -80,7 +90,12 @@ describe("Shunmaps", () => {
         },
         {
           duration: 10,
-          path: ["B"]
+          path: [
+            {
+              station: "B",
+              minutesToStation: 8
+            }
+          ]
         }
       ]);
     });
