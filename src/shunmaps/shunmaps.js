@@ -58,7 +58,7 @@ export default class ShunMaps {
           destination: parent,
           path
         } = fromNode;
-        if (destinationRoutes) {
+        if (!path.includes(parent) && destinationRoutes) {
           const fromDestinations = this.prepareDestinations({
             parent,
             path: [...path, parent],

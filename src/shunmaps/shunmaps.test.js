@@ -24,6 +24,12 @@ const routes = {
   },
   G: {
     H: 12
+  },
+  X: {
+    Z: 2
+  },
+  Z: {
+    X: 2
   }
 };
 
@@ -58,6 +64,13 @@ describe("Shunmaps", () => {
         duration: 24,
         path: ["E"],
         stops: 1
+      });
+    });
+    it("does not route back to parent", () => {
+      expect(shunmaps.getShortestRoute({ from: "X", to: "Z" })).toEqual({
+        duration: 2,
+        path: [],
+        stops: 0
       });
     });
   });
