@@ -10,11 +10,13 @@ const routes = {
     E: 12,
     X: 9,
     Y: 12,
-    C: 2
+    C: 2,
+    A: 2
   },
   C: {
     Z: 12,
-    F: 22
+    F: 22,
+    B: 9
   },
   D: {
     E: 10
@@ -22,6 +24,7 @@ const routes = {
   E: {
     F: 12
   },
+  F: {},
   G: {
     H: 12
   },
@@ -44,6 +47,17 @@ describe("Shunmaps", () => {
           {
             station: "B",
             minutesToStation: 8
+          }
+        ]
+      });
+    });
+    it("Check shortest path sanity, the other way round", () => {
+      expect(shunmaps.getShortestRoute({ from: "C", to: "A" })).toEqual({
+        duration: 11,
+        path: [
+          {
+            station: "B",
+            minutesToStation: 9
           }
         ]
       });
@@ -76,6 +90,12 @@ describe("Shunmaps", () => {
     });
     it("does not route back to parent", () => {
       expect(shunmaps.getShortestRoute({ from: "X", to: "Z" })).toEqual({
+        duration: 2,
+        path: []
+      });
+    });
+    it("does not route back to parent, the other way round", () => {
+      expect(shunmaps.getShortestRoute({ from: "Z", to: "X" })).toEqual({
         duration: 2,
         path: []
       });
