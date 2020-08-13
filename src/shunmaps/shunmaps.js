@@ -58,6 +58,8 @@ export default class ShunMaps {
           path = []
         } = fromNode;
         const stops = path.map(stop => stop.station);
+        stops.push(from);
+        stops.push(to);
         if (!stops.includes(parent) && destinationRoutes) {
           const fromDestinations = this.prepareDestinations({
             parent,
@@ -78,6 +80,12 @@ export default class ShunMaps {
     return routes;
   }
 
+  /**
+   * Returns the shortest route between 2 stations. If no routes found, it'll return undefined
+   * @param {Object} payload
+   * @param {String} payload.from           The origin station for the route
+   * @param {String} payload.to             The destination station for the route
+   */
   getShortestRoute({ from, to }) {
     const allRoutes = this.getAllRoutes({ from, to });
 
