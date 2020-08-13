@@ -5,7 +5,6 @@ export default class ShunMaps {
 
   static formatRoute(destination) {
     return {
-      stops: destination.path.length,
       path: destination.path,
       duration: destination.minutesToDestination + destination.minutesToParent
     };
@@ -84,7 +83,7 @@ export default class ShunMaps {
           return routeA.duration - routeB.duration;
         }
 
-        return routeA.stops - routeB.stops;
+        return routeA.path.length - routeB.path.length;
       });
       return allRoutes[0];
     }

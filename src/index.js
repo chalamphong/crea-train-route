@@ -57,7 +57,8 @@ const func = () => {
     const shortestRoute = shunMaps.getShortestRoute({ from, to });
 
     if (shortestRoute) {
-      const { stops, duration } = shortestRoute;
+      const { path, duration } = shortestRoute;
+      const stops = path.length;
       blab.success(
         `🚂 Your trip from ${from} to ${to} includes ${stops} ${
           stops > 1 ? "stops" : "stop"
