@@ -15,7 +15,7 @@ export default class ShunMaps {
       return Object.keys(routes).map(destination => {
         return {
           parent: parent,
-          destination,
+          station: destination,
           path,
           minutesToParent,
           minutesToDestination: routes[destination],
@@ -42,7 +42,7 @@ export default class ShunMaps {
     while (destinations.length > 0) {
       destinations.forEach(destination => {
         // Found Route, push to list
-        if (destination.destination === to) {
+        if (destination.station === to) {
           routes.push(ShunMaps.formatRoute(destination));
         }
       });
@@ -54,7 +54,7 @@ export default class ShunMaps {
           minutesToParent: minutesToGrandParent,
           minutesToDestination: minutesToParent,
           routes: destinationRoutes,
-          destination: parent,
+          station: parent,
           path = []
         } = fromNode;
         const stops = path.map(stop => stop.station);
