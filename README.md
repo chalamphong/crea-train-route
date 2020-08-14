@@ -79,7 +79,7 @@ Commander is responsible for passing arguments from the interface to the script.
 
 Routeparser takes in a String or Buffer representing a Route CSV file content and converts to a usable route format.
 
-#### ShumMaps
+#### ShunMaps
 
 My name is Shun and this is my maps. It's the best *don't @ me*. It takes in route data and figures the shortest path from an origin to destination.
 
