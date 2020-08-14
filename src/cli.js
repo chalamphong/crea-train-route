@@ -1,7 +1,6 @@
 #!/usr/bin/env node
-'use strict';
-const meow = require('meow');
-const creaTrainRoute = require('./');
+const meow = require("meow");
+import func from "./index";
 
 const cli = meow(`
 Usage
@@ -16,3 +15,5 @@ Examples
   $ crea-train-route rainbows
   unicorns & rainbows
 `);
+
+func(cli.input);
